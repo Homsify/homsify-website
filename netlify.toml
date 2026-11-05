@@ -1,0 +1,31 @@
+#  Homsify — Netlify build configuration
+#  ---------------------------------------------------------------------------
+#  Netlify reads this file automatically. Do not change it unless you know
+#  exactly what you are doing: the publish directory and functions directory
+#  are what make the site and the quote form work.
+
+[build]
+  command  = "npm run build"   # Next.js static export
+  publish  = "out"             # where the built site lands
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+#  The quote form posts to /api/quote. The function itself declares that path
+#  (see `export const config` at the bottom of netlify/functions/quote.mjs),
+#  and this redirect is the belt-and-braces fallback for older Netlify builds.
+[[redirects]]
+  from   = "/api/quote"
+  to     = "/.netlify/functions/quote"
+  status = 200
+  force  = true
+
+#  Security headers. Mirrors public/_headers.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options   = "nosniff"
+    X-Frame-Options          = "DENY"
+    Referrer-Policy          = "strict-origin-when-cross-origin"
+    Permissions-Policy       = "geolocation=(), microphone=(), camera=()"
