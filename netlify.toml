@@ -7,10 +7,16 @@
 [build]
   command  = "npm run build"   # Next.js static export
   publish  = "out"             # where the built site lands
-  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "20"
+
+#  The quote form's backend. This MUST be its own [functions] block: declaring
+#  the directory under [build] is the older form and is silently ignored on
+#  current builds, which is how the form came to 404 on first deploy.
+[functions]
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"
 
 #  The quote form posts to /api/quote. The function itself declares that path
 #  (see `export const config` at the bottom of netlify/functions/quote.mjs),
