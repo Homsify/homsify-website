@@ -1,5 +1,5 @@
 /* ============================================================================
-   POST /api/quote   —   Cloudflare Pages Function
+   POST /api/quote   —   Next.js Route Handler
    ----------------------------------------------------------------------------
    Runs on Cloudflare's edge. Zero npm dependencies by design: nothing to
    audit, nothing in the supply chain to be compromised, nothing to patch.
@@ -138,12 +138,18 @@ async function turnstileOk(E, token, ip) {
   return (await r.json()).success === true;
 }
 
-/* ── Handler ──────────────────────────────────────────────────────────────
-   Netlify Function (v2). Web-standard Request/Response, same as the original
-   Cloudflare edge function. Secrets come from Netlify → Project configuration
-   → Environment variables. They never reach the browser and are not in git.
+/* ── Route handler ─────────────────────────────────────────────────────────
+   A Next.js App Router Route Handler. Netlify's Next.js Runtime deploys this
+   as a serverless function automatically — unlike a hand-written function in
+   netlify/functions, which that runtime drops.
+
+   Secrets come from Netlify → Project configuration → Environment variables.
+   They never reach the browser and are not in git.
    ────────────────────────────────────────────────────────────────────────── */
 const E = process.env;
+
+// Never prerender or cache this: it must run per request.
+export const dynamic = "force-dynamic";
 
 /* Supabase ships two generations of server-side key and they are sent
    differently:
@@ -169,12 +175,16 @@ const json = (obj, status = 200) =>
     headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" },
   });
 
-export default async function handler(request, context) {
-  if (request.method !== "POST")
-    return new Response("Method not allowed", { status: 405, headers: { Allow: "POST", "Cache-Control": "no-store" } });
+export async function GET() {
+  return new Response("Method not allowed", { status: 405, headers: { Allow: "POST", "Cache-Control": "no-store" } });
+}
 
+export async function POST(request) {
   try {
-    const ip = context?.ip || request.headers.get("x-nf-client-connection-ip") || "unknown";
+    const ip =
+      request.headers.get("x-nf-client-connection-ip") ||
+      (request.headers.get("x-forwarded-for") || "").split(",")[0].trim() ||
+      "unknown";
     if (rateLimited(ip)) return json({ ok: false, error: "Too many requests. Please call us at 226-386-4012." }, 429);
 
     if ((request.headers.get("content-type") || "").indexOf("application/json") === -1)
@@ -253,6 +263,3 @@ export default async function handler(request, context) {
     return json({ ok: false, error: "Something went wrong on our end." }, 500);
   }
 }
-
-/* Route this function at /api/quote so the form's existing call is unchanged. */
-export const config = { path: "/api/quote" };

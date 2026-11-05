@@ -1,39 +1,19 @@
 #  Homsify — Netlify build configuration
 #  ---------------------------------------------------------------------------
-#  Netlify reads this file automatically. Do not change it unless you know
-#  exactly what you are doing: the publish directory and functions directory
-#  are what make the site and the quote form work.
+#  Netlify reads this file automatically.
+#
+#  Netlify auto-detects Next.js and builds this project with its Next.js
+#  Runtime. That runtime owns the publish directory and the serverless
+#  functions it generates, so this file deliberately does NOT set a publish
+#  directory, a functions directory, or a redirect for /api/quote — the
+#  runtime handles all three. Earlier attempts to set them by hand are what
+#  made the quote form return 404.
 
 [build]
-  command  = "npm run build"   # Next.js static export
-  publish  = "out"             # where the built site lands
+  command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
-
-  #  This site is a STATIC EXPORT (next.config.mjs sets output: "export"), so
-  #  it needs none of Netlify's Next.js Runtime — and when that runtime is
-  #  auto-detected it takes over the build and silently drops the custom
-  #  function in netlify/functions, which is what made /api/quote return 404.
-  #  Netlify documents this variable for exactly this case: Next.js projects
-  #  that emit static HTML.
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
-
-#  The quote form's backend. This MUST be its own [functions] block: declaring
-#  the directory under [build] is the older form and is silently ignored on
-#  current builds, which is how the form came to 404 on first deploy.
-[functions]
-  directory    = "netlify/functions"
-  node_bundler = "esbuild"
-
-#  The quote form posts to /api/quote. The function itself declares that path
-#  (see `export const config` at the bottom of netlify/functions/quote.mjs),
-#  and this redirect is the belt-and-braces fallback for older Netlify builds.
-[[redirects]]
-  from   = "/api/quote"
-  to     = "/.netlify/functions/quote"
-  status = 200
-  force  = true
 
 #  Security headers. Mirrors public/_headers.
 [[headers]]

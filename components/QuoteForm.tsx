@@ -26,7 +26,11 @@ export default function QuoteForm({ preselect }: { preselect?: string }) {
     setState("sending"); setNote("");
 
     try {
-      const res = await fetch("/api/quote", {
+      // Trailing slash is required: next.config.mjs sets trailingSlash: true,
+      // so "/api/quote" answers with a 308 to "/api/quote/". A redirected POST
+      // is not worth the risk — intermediaries have been known to turn it into
+      // a GET and drop the body — so post to the final URL directly.
+      const res = await fetch("/api/quote/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
