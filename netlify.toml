@@ -11,6 +11,14 @@
 [build.environment]
   NODE_VERSION = "20"
 
+  #  This site is a STATIC EXPORT (next.config.mjs sets output: "export"), so
+  #  it needs none of Netlify's Next.js Runtime — and when that runtime is
+  #  auto-detected it takes over the build and silently drops the custom
+  #  function in netlify/functions, which is what made /api/quote return 404.
+  #  Netlify documents this variable for exactly this case: Next.js projects
+  #  that emit static HTML.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
 #  The quote form's backend. This MUST be its own [functions] block: declaring
 #  the directory under [build] is the older form and is silently ignored on
 #  current builds, which is how the form came to 404 on first deploy.
