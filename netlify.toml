@@ -12,6 +12,13 @@
 [build]
   command = "npm run build"
 
+  #  Must be ".next", not "out". The site is no longer a static export, so no
+  #  out/ directory is produced; Netlify's Next.js Runtime reads .next and
+  #  publishes from there. This has to be stated here because the publish
+  #  directory set in the Netlify UI when the repository was linked still
+  #  said "out", and a deploy failed with "publish directory was not found".
+  publish = ".next"
+
 [build.environment]
   NODE_VERSION = "20"
 
