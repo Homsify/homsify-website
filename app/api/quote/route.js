@@ -68,7 +68,7 @@ function customerHtml(d) {
   <tr><td style="background:${NIGHT};padding:26px 32px;color:rgba(246,242,234,.6);font-size:12.5px;line-height:1.8">
     <div style="color:${CREAM};font-size:15px;font-weight:600;margin-bottom:8px">Homsify</div>
     Ontario, Canada · 226-386-4012 · Open 24/7<br>
-    <a href="mailto:hellohomsify@gmail.com" style="color:${GOLD};text-decoration:none">hellohomsify@gmail.com</a><br>
+    <a href="mailto:info@homsify.ca" style="color:${GOLD};text-decoration:none">info@homsify.ca</a><br>
     <span style="opacity:.75">Fully insured · WSIB covered · Free estimates</span>
   </td></tr>
 </table></td></tr></table></body></html>`;

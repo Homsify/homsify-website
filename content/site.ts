@@ -21,7 +21,7 @@ export const company = {
   tagline: "Property maintenance, renovation and services",
   phone: "226-386-4012",
   phoneHref: "tel:+12263864012",
-  email: "hellohomsify@gmail.com",
+  email: "info@homsify.ca",
   hours: "Open 24/7",
   basedIn: "Ontario, Canada",
   credentials: [
@@ -210,7 +210,7 @@ export const quoteForm = {
   successMessage:
     "Request received. A confirmation is on its way to your inbox and a project manager will contact you within one business day.",
   errorMessage:
-    "That didn't send. Call or text 226-386-4012, or email hellohomsify@gmail.com, and we'll take the details directly.",
+    "That didn't send. Call or text 226-386-4012, or email info@homsify.ca, and we'll take the details directly.",
 };
 
 export const seo = {
