@@ -145,6 +145,24 @@ async function turnstileOk(E, token, ip) {
    ────────────────────────────────────────────────────────────────────────── */
 const E = process.env;
 
+/* Supabase ships two generations of server-side key and they are sent
+   differently:
+
+     • Legacy service_role — a JWT, starting "eyJ". PostgREST expects it on
+       BOTH the apikey header and as an Authorization bearer token.
+     • Current secret key  — starts "sb_secret_". Not a JWT. Supabase's
+       migration guide says to send these on the apikey header ONLY;
+       putting a non-JWT in Authorization makes some paths try to parse it
+       as a JWT and reject the request.
+
+   Detecting the format keeps either key working, so rotating from one to
+   the other needs no code change. */
+function supabaseAuthHeaders(key) {
+  const k = String(key || "");
+  const isJwt = k.startsWith("eyJ");
+  return isJwt ? { apikey: k, Authorization: `Bearer ${k}` } : { apikey: k };
+}
+
 const json = (obj, status = 200) =>
   new Response(JSON.stringify(obj), {
     status,
@@ -194,8 +212,7 @@ export default async function handler(request, context) {
       const res = await fetch(`${E.SUPABASE_URL}/rest/v1/quote_requests`, {
         method: "POST",
         headers: {
-          apikey: E.SUPABASE_SERVICE_ROLE_KEY,
-          Authorization: `Bearer ${E.SUPABASE_SERVICE_ROLE_KEY}`,
+          ...supabaseAuthHeaders(E.SUPABASE_SERVICE_ROLE_KEY),
           "Content-Type": "application/json",
           Prefer: "return=minimal",
         },
