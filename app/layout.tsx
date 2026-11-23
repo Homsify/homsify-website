@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     title: seo.title, description: seo.description, url: seo.url,
     siteName: company.name, locale: "en_CA", type: "website",
   },
+  verification: {
+    google: "wgGp2U4-NbkmTj9SzlnHN9LrEzRYq0lAR8wJAX2OSq8",
+  },
   robots: { index: true, follow: true },
 };
 
@@ -31,6 +34,20 @@ const schema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-CA">
+      <head>
+        <Script
+          id="google-tag-gtm"
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-KJ9T9448"
+          strategy="afterInteractive"
+        />
+        <Script id="google-gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
+      </head>
       <body>
         <SmoothLinks />
         {children}
