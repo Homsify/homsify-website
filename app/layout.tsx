@@ -4,12 +4,15 @@ import { seo, company } from "@/content/site";
 import SmoothLinks from "@/components/SmoothLinks";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(seo.url),
+  metadataBase: new URL("https://homsify.ca"),
   title: seo.title,
   description: seo.description,
   openGraph: {
     title: seo.title, description: seo.description, url: seo.url,
     siteName: company.name, locale: "en_CA", type: "website",
+  },
+  alternates: {
+    canonical: "./",
   },
   verification: {
     google: "wgGp2U4-NbkmTj9SzlnHN9LrEzRYq0lAR8wJAX2OSq8",
