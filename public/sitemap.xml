@@ -8,6 +8,16 @@
        <priority>1.0000</priority>
   </url>
   <url>
+       <loc>https://homsify.ca/blog/</loc>
+       <lastmod>2026-11-12T19:06:10+00:00</lastmod>
+       <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://homsify.ca/blog/how-to-choose-renovation-company-ontario/</loc>
+    <lastmod>2026-11-24T19:06:10+00:00</lastmod>
+    <priority>0.8000</priority>
+  </url>
+  <url>
        <loc>https://homsify.ca/services/home-renovations/</loc>
        <lastmod>2026-11-12T19:06:10+00:00</lastmod>
        <priority>0.8000</priority>
