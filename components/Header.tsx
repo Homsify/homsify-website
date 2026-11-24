@@ -6,7 +6,7 @@ import { company } from "@/content/site";
 
 const LINKS: [string, string][] = [
   ["/#services", "Services"], ["/#sectors", "Who we serve"], ["/#process", "Process"],
-  ["/#work", "Work"], ["/#areas", "Where we work"], ["/#about", "About"],
+  ["/#work", "Work"], ["/#areas", "Where we work"], ["/#about", "About"], ["/blog", "Blog"]
 ];
 
 export default function Header() {
