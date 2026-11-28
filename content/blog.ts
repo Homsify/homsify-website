@@ -240,8 +240,8 @@ export const blogPosts: BlogPost[] = [
       {
         heading: "Get a written quote",
         paragraphs: [
-        "If you want a fixed-price quote from a renovation company in Ontario, [send Homsify the property details](https://homsify.ca/#quote) or call 226-386-4012." 
-         "A project manager replies within one business day."
+          "If you want a fixed-price quote from a renovation company in Ontario, [send Homsify the property details](https://homsify.ca/#quote) or call 226-386-4012.",
+          "A project manager replies within one business day.",
         ],
       },
     ],
